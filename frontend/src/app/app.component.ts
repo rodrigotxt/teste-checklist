@@ -14,7 +14,7 @@ import { TodoService } from './services/todo.service';
 export class AppComponent implements OnInit {
   private readonly todoService = inject(TodoService);
 
-  title = 'Todo List';
+  title = 'Checklist Fácil';
   
   // Estado local para o formulário controlado por Signal para melhor performance de renderização
   newTodoTitle = signal<string>('');
