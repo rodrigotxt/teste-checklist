@@ -4,6 +4,8 @@ Este repositório contém a versão completamente refatorada e otimizada do desa
 
 A nova versão foi reestruturada seguindo bons padrões técnicos, aplicando os princípios do **SOLID**, isolamento de conceitos (**Separation of Concerns**), tipagem estrita e reatividade moderna.
 
+Repositório de origem: https://github.com/marcusfernandes/starian-checklist
+
 ---
 
 ## 🛠️ O que foi feito?
@@ -46,7 +48,10 @@ Graças à automação implementada, o ambiente é 100% plug-and-play. Você só
 git clone <https://github.com/rodrigotxt/teste-checklist.git>
 cd <teste-checklist>
 
+
 # 2. Execute o setup automatizado (ele cria o .env, sobe os containers, instala dependências e popula o MySQL)
 make setup
+```
 
-Após a primeira inicialização, basta fazer ``make up``para subir o projeto. Para ver todos comandos possíveis, utilize ``make help``.
+Após a primeira inicialização, basta fazer ``make up`` para subir o projeto. 
+Para ver todos comandos possíveis, utilize ``make help``.
