@@ -23,16 +23,17 @@ services:
       - db_data:/var/lib/mysql
 
   angular:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    volumes:
-      - ./frontend:/app
-    ports:
-      - "4200:4200"
-    command: npm run start -- --host=0.0.0.0
-    stdin_open: true
-    tty: true
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      volumes:
+        - ./frontend:/app
+        - /app/node_modules
+      ports:
+        - "4200:4200"
+      command: npm run start -- --host=0.0.0.0
+      stdin_open: true
+      tty: true
 
 volumes:
   db_data:
