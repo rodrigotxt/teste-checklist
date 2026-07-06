@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Tarefa;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +12,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Garante que a tabela está limpa antes de semear (evita duplicações)
+        Tarefa::truncate();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Cria 10 tarefas fictícias usando a estrutura da Factory
+        Tarefa::factory()->count(10)->create();
+
+        $this->command->info('✨ Banco de dados MySQL semeado com 10 tarefas de exemplo!');
     }
 }
