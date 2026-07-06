@@ -1,46 +1,57 @@
-<div style="padding: 20px; font-family: Arial;">
-  <h1>{{ title }}</h1>
+<main class="app-container">
+  <header class="app-header">
+    <h1>🎯 {{ title }}</h1>
+    <p class="app-subtitle">Gerencie suas tarefas diárias com eficiência.</p>
+  </header>
 
-  <div style="margin-bottom: 20px;">
-    <input 
-      type="text" 
-      [(ngModel)]="newTodo.title" 
-      placeholder="Digite uma nova tarefa"
-      style="padding: 8px; width: 300px;"
-    />
-    <button 
-      (click)="addTodo()" 
-      style="padding: 8px 16px; margin-left: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer;"
-    >
-      Adicionar
-    </button>
-  </div>
-
-  <div>
-    <h2>Tarefas</h2>
-    
-    <div *ngIf="todos.length === 0" style="color: gray;">
-      Nenhuma tarefa encontrada.
-    </div>
-    
-    <ul style="list-style-type: none; padding: 0;">
-      <li 
-        *ngFor="let todo of todos" 
-        style="padding: 10px; margin-bottom: 5px; border: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;"
-      >
-        <span [style.text-decoration]="todo.completed ? 'line-through' : 'none'">
-          {{ todo.title }}
-        </span>
-        
-        <button 
-          (click)="removeTodo(todo.id)" 
-          style="background-color: #f44336; color: white; border: none; padding: 5px 10px; cursor: pointer;"
-        >
-          Remover
+  <section class="todo-card">
+    <form (submit)="addTodo(); $event.preventDefault()" class="todo-form">
+      <div class="input-group">
+        <input 
+          type="text" 
+          placeholder="O que você precisa fazer hoje?" 
+          [ngModel]="newTodoTitle()"
+          (ngModelChange)="newTodoTitle.set($event)"
+          name="todoTitle"
+          maxlength="255"
+          aria-label="Nova tarefa"
+          required
+        />
+        <button type="submit" [disabled]="!newTodoTitle().trim()" class="btn-primary">
+          <span>Adicionar</span>
         </button>
-      </li>
-    </ul>
-  </div>
-</div>
+      </div>
+    </form>
 
-<router-outlet />
+    <div class="todo-list-wrapper">
+      @if (todos().length > 0) {
+        <ul class="todo-list">
+          @for (todo of todos(); track todo.id) {
+            <li class="todo-item" [class.completed]="todo.completed">
+              <div class="todo-content">
+                <span class="todo-title">{{ todo.title }}</span>
+              </div>
+              <button 
+                type="button" 
+                class="btn-delete" 
+                (click)="removeTodo(todo.id)" 
+                aria-label="Excluir tarefa"
+              >
+                🗑️
+              </button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="empty-state">
+          <span class="empty-icon">🎉</span>
+          <p>Muito bem! Você não tem tarefas pendentes.</p>
+        </div>
+      }
+    </div>
+
+    <footer class="card-footer">
+      <span>Total: <strong>{{ todos().length }}</strong> tarefas</span>
+    </footer>
+  </section>
+</main>
