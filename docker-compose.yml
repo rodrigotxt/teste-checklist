@@ -1,5 +1,9 @@
 version: '3.8'
 
+networks:
+  app-network:
+    driver: bridge
+
 services:
   laravel:
     build:
@@ -9,8 +13,24 @@ services:
       - ./backend:/var/www
     ports:
       - "8000:8000"
-    working_dir: /backend
-    command: php artisan serve --host=0.0.0.0 --port=8000
+    working_dir: /var/www
+    command: php artisan serve --host=0.0.0.0 --port=8000 # TODO: trocar para php-fpm/nginx no futuro
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel_db
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
 
   angular:
     build:
@@ -18,8 +38,14 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     ports:
       - "4200:4200"
     command: npm run start -- --host=0.0.0.0
     stdin_open: true
     tty: true
+    networks:
+      - app-network
+
+volumes:
+  db_data:
