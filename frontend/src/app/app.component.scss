@@ -1,0 +1,226 @@
+// Definição de Variáveis de Design Tokens (Padrão Sênior)
+$primary-color: #6366f1;
+$primary-hover: #4f46e5;
+$danger-color: #ef4444;
+$danger-hover: #dc2626;
+$text-main: #1f2937;
+$text-muted: #6b7280;
+$bg-app: #f3f4f6;
+$bg-card: #ffffff;
+$border-color: #e5e7eb;
+$radius: 12px;
+$transition: all 0.2s ease-in-out;
+
+// Container Principal centralizado usando Flexbox
+.app-container {
+  min-height: 100vh;
+  background-color: $bg-app;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: $text-main;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+// Cabeçalho
+.app-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+  }
+
+  .app-subtitle {
+    color: $text-muted;
+    font-size: 1rem;
+  }
+}
+
+// O Card Principal do Checklist
+.todo-card {
+  background: $bg-card;
+  width: 100%;
+  max-width: 540px; // Largura limite confortável para Desktop
+  border-radius: $radius;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  border: 1px solid $border-color;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+// Formulário e Input Group Responsivo
+.todo-form {
+  padding: 1.5rem;
+  border-bottom: 1px solid $border-color;
+
+  .input-group {
+    display: flex;
+    flex-direction: column; // Empilha no mobile por padrão
+    gap: 0.75rem;
+
+    input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid $border-color;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: $transition;
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.15);
+      }
+    }
+
+    .btn-primary {
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: $transition;
+
+      &:hover:not(:disabled) {
+        background-color: $primary-hover;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// Wrapper da Listagem
+.todo-list-wrapper {
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #fafafa;
+}
+
+// Lista de Tarefas
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  .todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid $border-color;
+    transition: $transition;
+    animation: fadeIn 0.3s ease;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #f9fafb;
+    }
+
+    .todo-content {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+      
+      .todo-title {
+        font-size: 1rem;
+        font-weight: 500;
+        transition: $transition;
+        word-break: break-word; // Evita quebra de layout com textos gigantes
+      }
+    }
+
+    // Estilo para Tarefas Concluídas
+    &.completed {
+      background-color: #f3f4f6;
+      
+      .todo-title {
+        color: $text-muted;
+        text-decoration: line-through;
+      }
+    }
+
+    .btn-delete {
+      background: transparent;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.4rem;
+      border-radius: 6px;
+      transition: $transition;
+      opacity: 0.6;
+
+      &:hover {
+        background-color: rgba($danger-color, 0.1);
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+// Estado Vazio (Sem tarefas)
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: $text-muted;
+
+  .empty-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+}
+
+// Rodapé do Card
+.card-footer {
+  padding: 1rem 1.5rem;
+  background-color: $bg-card;
+  border-top: 1px solid $border-color;
+  font-size: 0.875rem;
+  color: $text-muted;
+}
+
+// 📱 Responsividade Avançada (Media Query para Desktop)
+@media (min-width: 480px) {
+  .todo-form {
+    .input-group {
+      flex-direction: row; // Alinha lado a lado em telas maiores
+      gap: 0.5rem;
+    }
+  }
+}
+
+// Animação sutil de entrada
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
