@@ -47,6 +47,31 @@ seed: ## Executa os seeders para popular o banco de dados
 composer-install: ## Instala/Atualiza as dependências do Composer dentro do container
 	$(EXEC_BACK) composer install
 
+## Inicialização do Projeto do Zero
+
+setup: ## Configura e levanta todo o projeto do zero de forma segura
+	@echo "Iniciando setup do projeto..."
+	cp -n ./backend/.env.example ./backend/.env || true
+	
+	@echo "Executando Composer Install em container temporário..."
+	docker compose run --rm laravel composer install
+	
+	@echo "⚡ Levantando todos os containers em segundo plano..."
+	$(COMPOSE) up -d --build
+	
+	@echo "Aguardando os containers se estabilizarem..."
+	sleep 5
+	
+	@echo "Gerando chave da aplicação Laravel..."
+	$(COMPOSE) exec laravel php artisan key:generate
+	
+	@echo "Instalando dependências do Frontend..."
+	$(COMPOSE) exec angular npm install
+	
+	@echo "Executando as migrations e seeders..."
+	$(COMPOSE) exec laravel php artisan migrate --seed || true
+	@echo "✨ Tudo pronto! Acesse o frontend em http://localhost:4200"
+
 ## Faxina e Manutenção
 
 clean: ## Limpa caches acumulados do Laravel e otimiza a aplicação
