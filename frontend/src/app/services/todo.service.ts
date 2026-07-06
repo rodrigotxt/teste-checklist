@@ -8,7 +8,7 @@ import { Todo, CreateTodoDto } from '../models/todo.model';
 })
 export class TodoService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8000/tarefas';
+  private readonly apiUrl = 'http://localhost:8000/api/tarefas';
 
   // Estado reativo privado interno
   #todosSignal = signal<Todo[]>([]);
